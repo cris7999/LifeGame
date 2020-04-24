@@ -1,4 +1,30 @@
 import numpy as np
+import pygame
+
+pygame.init()
+
+pygame.display.set_caption("Life Game")
+width, height = 1000, 1000
+screen = pygame.display.set_mode((height, width))
+bg = 25, 25, 25
+screen.fill(bg)
+
+nxC, nyC = 25, 25
+dimCW = width / nxC
+dimCH = height / nyC
+
+while True:
+    for x in range(0,nxC):
+        for y in range(0,nyC):
+            poly = [((x) * dimCW, y*dimCH),
+                    ((x + 1) * dimCW, y*dimCH),
+                    ((x + 1) * dimCW, (y + 1)*dimCH),
+                    ((x) * dimCW, (y + 1)*dimCH)]
+            pygame.draw.polygon(screen, (128,128,128),poly,1)
+
+    pygame.display.flip()
+
+
 
 def random_grid(n):
     grid = np.array([])
@@ -69,7 +95,7 @@ def count_neighbors(i , j):
             count +=1
         if(grid[i][j - 1]):
             count +=1
-    
+
     elif (i == real_len and (not visited)):
         visited = True
         if(grid[i - 1][j]):
@@ -82,7 +108,7 @@ def count_neighbors(i , j):
             count +=1
         if(grid[i][j - 1]):
             count +=1
-    
+
     elif (j == 0 and (not visited)):
         visited = True
         if(grid[i][j + 1]):
@@ -131,13 +157,6 @@ def updateGrid():
                     grid[i][j] = False
             else:
                 if(num_neighbors == 3):
-                    grid[i][j] = True    
+                    grid[i][j] = True
 
-    return grid        
-                    
-
-grid = random_grid(5)
-show_grid(grid)
-grid = updateGrid()
-print("ACTUALIZACION:")
-show_grid(grid)
+    return grid
