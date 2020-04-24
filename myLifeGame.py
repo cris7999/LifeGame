@@ -1,30 +1,6 @@
 import numpy as np
 import pygame
-
-pygame.init()
-
-pygame.display.set_caption("Life Game")
-width, height = 1000, 1000
-screen = pygame.display.set_mode((height, width))
-bg = 25, 25, 25
-screen.fill(bg)
-
-nxC, nyC = 25, 25
-dimCW = width / nxC
-dimCH = height / nyC
-
-while True:
-    for x in range(0,nxC):
-        for y in range(0,nyC):
-            poly = [((x) * dimCW, y*dimCH),
-                    ((x + 1) * dimCW, y*dimCH),
-                    ((x + 1) * dimCW, (y + 1)*dimCH),
-                    ((x) * dimCW, (y + 1)*dimCH)]
-            pygame.draw.polygon(screen, (128,128,128),poly,1)
-
-    pygame.display.flip()
-
-
+import time
 
 def random_grid(n):
     grid = np.array([])
@@ -148,15 +124,58 @@ def count_neighbors(i , j):
     return count
 
 
-def updateGrid():
+def updateGrid(grid):
+
+    new_grid= np.copy(grid)
     for i in range(len(grid)):
         for j in range(len(grid)):
             num_neighbors = count_neighbors(i , j)
             if(grid[i][j]):
                 if((num_neighbors < 2) or (num_neighbors > 3)):
-                    grid[i][j] = False
+                    new_grid[i][j] = False
             else:
                 if(num_neighbors == 3):
-                    grid[i][j] = True
+                    new_grid[i][j] = True
 
-    return grid
+    return new_grid
+
+pygame.init()
+
+pygame.display.set_caption("Life Game")
+width, height = 1000, 1000
+screen = pygame.display.set_mode((height, width))
+bg = 25, 25, 25
+screen.fill(bg)
+
+nxC, nyC = 25, 25
+dimCW = width / nxC
+dimCH = height / nyC
+
+grid = random_grid(nxC)
+for x in range(0,nxC):
+    for y in range(0,nyC):
+        grid[x ,y] = False
+
+grid[5,3] = True
+grid[5,4] = True
+grid[5,5] = True
+
+while True:
+
+    screen.fill(bg)
+    time.sleep(0.5)
+    grid=updateGrid(grid)
+    for x in range(0,nxC):
+        for y in range(0,nyC):
+
+            poly = [((x) * dimCW, y*dimCH),
+                    ((x + 1) * dimCW, y*dimCH),
+                    ((x + 1) * dimCW, (y + 1)*dimCH),
+                    ((x) * dimCW, (y + 1)*dimCH)]
+
+            if(grid[x][y]):
+                pygame.draw.polygon(screen, (255, 255, 255),poly,1)
+            else:
+                pygame.draw.polygon(screen, (128,128,128),poly,0)
+
+    pygame.display.flip()
