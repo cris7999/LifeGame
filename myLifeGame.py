@@ -15,8 +15,16 @@ def random_grid(n):
                 grid[i][j] = False
     return grid
 
-def show_grid(grid):
-    print(grid)
+def show_grid(grid, nxC, nyC):
+    print("----------------------")
+    for i in range(nxC):
+        for j in range(nyC):
+            if(grid[i][j]):
+                print(" 1 ",end="")
+            else:
+                print(" 0 ",end="")
+        print("")
+    print("----------------------")
 
 def count_neighbors(i , j):
     count = 0
@@ -120,6 +128,14 @@ def count_neighbors(i , j):
             count +=1
         if(grid[i + 1][j]):
             count +=1
+        if(grid[i - 1][j - 1]):
+            count +=1
+        if(grid[i - 1][j + 1]):
+            count +=1
+        if(grid[i + 1][j - 1]):
+            count +=1
+        if(grid[i + 1][j + 1]):
+            count +=1
 
     return count
 
@@ -147,9 +163,10 @@ screen = pygame.display.set_mode((height, width))
 bg = 25, 25, 25
 screen.fill(bg)
 
-nxC, nyC = 25, 25
+nxC, nyC = 6, 6
 dimCW = width / nxC
 dimCH = height / nyC
+
 
 grid = random_grid(nxC)
 for x in range(0,nxC):
@@ -160,12 +177,17 @@ grid[5,3] = True
 grid[5,4] = True
 grid[5,5] = True
 
-while True:
+grid[0,1] = True
+grid[1,1] = True
+grid[2,1] = True
 
+
+while True:
+    show_grid(grid,nxC,nyC)
     screen.fill(bg)
     time.sleep(0.5)
     grid=updateGrid(grid)
-    for x in range(0,nxC):
+    '''for x in range(0,nxC):
         for y in range(0,nyC):
 
             poly = [((x) * dimCW, y*dimCH),
@@ -179,3 +201,4 @@ while True:
                 pygame.draw.polygon(screen, (128,128,128),poly,0)
 
     pygame.display.flip()
+    '''
