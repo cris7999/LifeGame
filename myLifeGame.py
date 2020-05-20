@@ -163,16 +163,14 @@ screen = pygame.display.set_mode((height, width))
 bg = 25, 25, 25
 screen.fill(bg)
 
-nxC, nyC = 6, 6
+nxC, nyC = 50, 50
 dimCW = width / nxC
 dimCH = height / nyC
 
 
 grid = random_grid(nxC)
-for x in range(0,nxC):
-    for y in range(0,nyC):
-        grid[x ,y] = False
 
+'''
 grid[5,3] = True
 grid[5,4] = True
 grid[5,5] = True
@@ -180,14 +178,14 @@ grid[5,5] = True
 grid[0,1] = True
 grid[1,1] = True
 grid[2,1] = True
-
+'''
 
 while True:
     show_grid(grid,nxC,nyC)
     screen.fill(bg)
     time.sleep(0.5)
     grid=updateGrid(grid)
-    '''for x in range(0,nxC):
+    for x in range(0,nxC):
         for y in range(0,nyC):
 
             poly = [((x) * dimCW, y*dimCH),
@@ -196,9 +194,8 @@ while True:
                     ((x) * dimCW, (y + 1)*dimCH)]
 
             if(grid[x][y]):
-                pygame.draw.polygon(screen, (255, 255, 255),poly,1)
+                pygame.draw.polygon(screen, (125, 125, 125),poly,1)
             else:
-                pygame.draw.polygon(screen, (128,128,128),poly,0)
+                pygame.draw.polygon(screen, (0,0,0),poly,0)
 
     pygame.display.flip()
-    '''
